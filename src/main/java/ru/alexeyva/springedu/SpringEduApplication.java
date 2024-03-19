@@ -3,6 +3,7 @@ package ru.alexeyva.springedu;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.ParameterizedTypeReference;
+import ru.alexeyva.springedu.config.Configuration;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -19,7 +20,7 @@ public class SpringEduApplication {
 
     public static void main(String[] args) throws Exception {
         var ctx = SpringApplication.run(SpringEduApplication.class, args);
-
+/*
         System.out.println(ctx.getBean("helloWorld"));
         for(int i = 0;i<15;i++){
             System.out.println(ctx.getBean("random"));
@@ -73,7 +74,21 @@ public class SpringEduApplication {
         streamer.setIterator(lines.iterator());
         streamer.setConsumer(System.out::println);
         //
-        streamer.all();
+        streamer.all();*/
+
+        System.out.println();
+        ctx.getBeansOfType(Configuration.TestName.class).values().forEach(System.out::println);
+        ctx.getBeansOfType(Configuration.TestName2.class).values().forEach(System.out::println);
+        System.out.println(ctx.getBean("random"));
+        System.out.println(ctx.getBean("random"));
+        System.out.println(ctx.getBean("random"));
+        System.out.println(ctx.getBean("random"));
+        System.out.println(ctx.getBean("random"));
+
+        System.out.println();
+        Configuration.CacheTest bean = ctx.getBean(Configuration.CacheTest.class);
+        System.out.println(bean.stuff());
+        System.out.println(bean.stuff());
 
     }
 

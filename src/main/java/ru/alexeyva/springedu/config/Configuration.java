@@ -1,5 +1,8 @@
 package ru.alexeyva.springedu.config;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
@@ -7,6 +10,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.annotation.Order;
 import ru.alexeyva.springedu.*;
+import ru.alexeyva.springedu.annotations.Cache;
+import ru.alexeyva.springedu.annotations.Default;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -30,6 +35,7 @@ public class Configuration {
         return "Hello world";
     }
 
+/*
     @Bean
     @Scope("prototype")
     int random(int min, int max) {
@@ -38,6 +44,7 @@ public class Configuration {
         int rng = ThreadLocalRandom.current().nextInt(0, notSeen.size());
         return notSeen.remove(rng);
     }
+*/
 
     @Bean
     @Lazy
@@ -71,8 +78,8 @@ public class Configuration {
     }
 
     @Bean
-    Review review3(int random) {
-        return new Review("slozhno", random);
+    Review review3() {
+        return new Review("slozhno", 3);
     }
 
     @Bean
@@ -136,8 +143,72 @@ public class Configuration {
 
     @Bean
     @Order(100)
-    StreamerMapper<String> onlyFirstLetter(){
-        return new StreamerMapper<>(String.class, str -> str.length() > 1 ? str.charAt(0)+"" : "");
+    StreamerMapper<String> onlyFirstLetter() {
+        return new StreamerMapper<>(String.class, str -> str.length() > 1 ? str.charAt(0) + "" : "");
+    }
+
+    @Bean
+    String defString() {
+        return "asd";
+    }
+
+    @Bean
+    TestName noName() {
+        return new TestName();
+    }
+
+    @Bean
+    TestName noName2() {
+        return new TestName("bob", "alice");
+    }
+
+    @Bean
+    TestName2 noName3() {
+        return new TestName2();
+    }
+
+    @Bean
+    DefSource defSource() {
+        return new DefSource();
+    }
+
+    @Bean
+    CacheTest cacheTest() {
+        return new CacheTest();
+    }
+
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @ToString
+    public static class TestName {
+        @Default("defString")
+        String name2;
+        String name;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Default("defSource")
+    public static class TestName2 {
+        @ru.alexeyva.springedu.annotations.ToString
+        String name2;
+        String name;
+    }
+
+    public static class DefSource {
+        Object getDefault(Class<?> clazz) {
+            return "default";
+        }
+    }
+
+    public static class CacheTest {
+
+        @Cache
+        public String stuff() {
+            System.out.println("Doing stuff");
+            return "stuff";
+        }
     }
 
 }
