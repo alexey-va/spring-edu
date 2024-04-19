@@ -13,7 +13,14 @@ public class Employee {
     public Long id;
 
     String name;
-    Long departmentId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(name = "department_id")
+    Department department;
     String departmentName;
 
+
+    @Override
+    public String toString() {
+        return "Employee{" + "departmentName='" + departmentName + '\'' + ", name='" + name + '\'' + ", id=" + id + '}';
+    }
 }

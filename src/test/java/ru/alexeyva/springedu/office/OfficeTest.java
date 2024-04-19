@@ -28,7 +28,7 @@ public class OfficeTest {
             Employee employee = new Employee();
             employee.setName("Employee_"+i);
             Department cur = i%2==0?department:department2;
-            employee.setDepartmentId(cur.getId());
+            employee.setDepartment(cur);
             //employee.setDepartmentName(department.getName());
             employeeRepo.save(employee);
         }
